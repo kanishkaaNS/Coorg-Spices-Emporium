@@ -105,8 +105,8 @@ Some enhancements I plan to make include:
 
 <table>
 <tr>
-<td align="center"><strong>🏠 Home Page</strong></td>
-<td align="center"><strong>🛍️ Category Page</strong></td>
+<td align="center"><strong> Home Page</strong></td>
+<td align="center"><strong> Category Page</strong></td>
 </tr>
 
 <tr>
@@ -120,8 +120,8 @@ Some enhancements I plan to make include:
 </tr>
 
 <tr>
-<td align="center"><strong>📦 Product Detail Page</strong></td>
-<td align="center"><strong>💳 Payment Success</strong></td>
+<td align="center"><strong> Product Detail Page</strong></td>
+<td align="center"><strong> Payment Success</strong></td>
 </tr>
 
 <tr>
