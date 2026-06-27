@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ category.name }} - Coorg Spices</title>
+    <link rel="stylesheet" href="{% static 'shop/styles.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Itim&family=Saira+Stencil+One&display=swap" rel="stylesheet">
+
+    <style>
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #6b8c66;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .page-wrapper {
+            flex: 1;
+            padding: 20px 0;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            color: white;
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .products-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem;
+            padding-bottom: 60px;
+        }
+
+        .shop-card {
+            width: 300px;
+            height: 400px;
+            background-color: #96bc90;
+            border-radius: 30px;
+            padding: 1rem;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .shop-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .shop-card-image-container {
+            width: 100%;
+            height: 260px;
+            flex-shrink: 0;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .shop-card-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 0.75rem;
+        }
+
+        .shop-card-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 1rem;
+            z-index: 1;
+        }
+
+
+        .button-wrapper {
+            position: absolute;
+            bottom: 5px;
+            left: 45%;
+            transform: translateX(-40%);
+            width: 95%;
+        }
+
+        .shop-price-container {
+            width: 100%;
+            margin-top: -0.5rem;
+            margin-bottom: 2.2rem;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 0.5rem;
+            align-items: center;
+        }
+
+        .price {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .variant-name {
+            font-size: 0.9rem;
+            color: gold;
+            font-weight: 500;
+            font-style: italic;
+            text-align: right;
+        }
+
+        .shop-price-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: baseline;
+            gap: 6px;
+            margin-top: -0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .shop-price-wrapper .price {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #fff;
+            margin-left: 40px;
+        }
+
+        .shop-price-wrapper .variant {
+            font-size: 0.9rem;
+            color: rgb(116, 8, 8);
+            font-weight: 600;
+        }
+
+        /* View button styling - same as add-to-cart in category_list.html */
+        .view-button {
+            position: absolute;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            padding: 15px;
+            background: #6b8c66;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .view-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .view-button:hover::before {
+            left: 100%;
+        }
+
+        .view-button:hover {
+            transform: translate(-50%, -2px);
+            box-shadow: 0 8px 25px rgba(108, 158, 96, 0.4);
+        }
+
+        .view-button:active {
+            transform: translate(-50%, 0);
+        }
+
+        .cart-badge {
+            position: fixed;
+            top: 38px;
+            right: -5px;
+            background-color: #ff3e3e;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR SECTION -->
+    <div class="nav-container">
+        <nav class="nav-bar">
+            <div class="logo">
+                <img src="{% static 'shop/imageSrc/logo.png' %}" alt="Logo" class="logo-image">
+                Coorg Spices Emporium
+            </div>
+            <div class="nav-buttons">
+                <a href="{% url 'home' %}" class="nav-button">HOME</a>
+                <a href="{% url 'category_list' %}" class="nav-button">CATEGORY</a>
+                <a href="#" class="nav-button">CONTACT US</a>
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="Search Spices....">
+                    <button class="search-button">🔍</button>
+                </div>
+            </div>
+            <button class="cart-button" onclick="location.href='{% url "cart" %}';">
+                <img src="{% static 'shop/imageSrc/cart.png' %}" alt="Cart" class="cart-icon">
+                {% if cart_item_count > 0 %}
+                <span class="cart-badge">{{ cart_item_count }}</span>
+                {% endif %}
+            </button>
+        </nav>
+    </div>
+
+    <!-- Popup container -->
+    <div class="popup-container">
+
+        <!-- Popup menu (fixed on left) -->
+        <div class="popup-menu" id="popupMenu">
+            <ul>
+                {% if user.is_authenticated %}
+                <li><a href="{% url 'profile' %}">My Profile</a></li>
+                <li><a href="{% url 'my_orders' %}">My Orders</a></li>
+                {% endif %}
+
+                <li><a href="#">Featured Products</a></li>
+                <li><a href="#">Recipe Suggestions</a></li>
+                <li><a href="https://www.thespicehouse.com/blogs/news">Blog/Articles</a></li>
+                <li><a href="#">Customer Reviews</a></li>
+
+                {% if user.is_authenticated %}
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+                {% else %}
+                <li><a href="{% url 'login' %}">Login</a></li>
+                <li><a href="{% url 'register' %}">Register</a></li>
+                {% endif %}
+            </ul>
+        </div>
+
+        <!-- Popup trigger button: always visible on screen (left-center) -->
+        <button class="popup-trigger" onclick="togglePopup()">
+            <img src="{% static 'shop/imageSrc/arrow.png' %}" alt="Menu" class="arrow-icon">
+        </button>
+
+    </div>
+
+    <div class="page-wrapper">
+        <div class="container">
+            <div class="header">
+                <h1>{{ category.name }}</h1>
+            </div>
+
+            <div class="products-grid">
+                {% for product in products %}
+                <div class="shop-card">
+                    <div class="shop-card-image-container">
+                        {% if product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                        {% else %}
+                        <img src="{% static 'shop/imageSrc/default_product.png' %}" alt="{{ product.name }}">
+                        {% endif %}
+                    </div>
+                    <div class="shop-card-title">{{ product.name }}</div>
+
+                    {% with product.variants.all|dictsort:"price"|first as cheapest_variant %}
+                    <div class="shop-price-wrapper">
+                        <div class="price">₹{{ cheapest_variant.price|floatformat:"0" }}</div>
+                        <div class="variant">/{{ cheapest_variant.weight }}</div>
+                    </div>
+                    {% endwith %}
+
+                    <a href="{% url 'product_detail' product.slug %}" class="view-button">View</a>
+
+                </div>
+                {% empty %}
+                <p style="color: white;">No products available in this category.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 Coorg Spices Emporium. All Rights Reserved.</p>
+    </footer>
+
+    <!-- JavaScript for popup functionality -->
+    <script>
+        const popupMenu = document.getElementById("popupMenu");
+        const popupTrigger = document.querySelector(".popup-trigger");
+
+        function togglePopup() {
+            popupMenu.classList.toggle("show");
+
+            // Hide trigger when menu is open
+            if (popupMenu.classList.contains("show")) {
+                popupTrigger.style.opacity = "0";
+                popupTrigger.style.pointerEvents = "none";
+            }
+        }
+
+        // Close menu on outside click
+        document.addEventListener("click", function (event) {
+            if (!popupMenu.contains(event.target) && !popupTrigger.contains(event.target)) {
+                popupMenu.classList.remove("show");
+                popupTrigger.style.opacity = "1";
+                popupTrigger.style.pointerEvents = "auto";
+            }
+        });
+
+        // Close menu on scroll
+        window.addEventListener("scroll", function () {
+            if (popupMenu.classList.contains("show")) {
+                popupMenu.classList.remove("show");
+                popupTrigger.style.opacity = "1";
+                popupTrigger.style.pointerEvents = "auto";
+            }
+        });
+    </script>
+</body>
+
+</html>

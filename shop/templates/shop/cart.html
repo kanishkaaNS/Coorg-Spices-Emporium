@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Coorg Spices | Cart</title>
+    <link rel="stylesheet" href="{% static 'shop/styles.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Itim&family=Saira+Stencil+One&display=swap" rel="stylesheet" />
+    <style>
+        body,
+        .cart-summary {
+            font-family: 'Itim';
+            color: #2f2f2f;
+            flex-direction: column;
+        }
+
+        .cart-container {
+            background: #c2dfb3;
+            padding: 30px;
+            border-radius: 12px;
+        }
+
+        .cart-title {
+            font-family: 'Saira Stencil One', cursive;
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 30px;
+        }
+
+        .cart-title span {
+            font-weight: normal;
+        }
+
+        .cart-header,
+        .cart-item {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 0.5fr;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 20px;
+        }
+
+        .cart-header {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #333;
+            border-bottom: 2px solid #6b8c66;
+        }
+
+        .cart-item {
+            border-bottom: 1px solid #6b8c66;
+        }
+
+        .cart-header span,
+        .cart-details,
+        .item-price,
+        .item-quantity,
+        .item-total,
+        .delete-btn {
+            flex: 1;
+            text-align: center;
+        }
+
+        .header-price {
+            margin-left: -1px;
+        }
+
+        .header-total {
+            margin-right: -15px;
+        }
+
+        .cart-item {
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #6b8c66;
+        }
+
+        .cart-details {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-align: left;
+            margin-left: 150px;
+        }
+
+        .cart-details img {
+            width: 55px;
+            height: 55px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .item-text .item-name {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .item-text .item-desc {
+            font-size: 12px;
+            color: #444;
+        }
+
+        .item-price,
+        .item-total {
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .item-quantity {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .item-quantity button {
+            width: 28px;
+            height: 28px;
+            font-size: 16px;
+            font-weight: bold;
+            border: 1px solid #888;
+            border-radius: 6px;
+            background: #fff;
+            cursor: pointer;
+        }
+
+        .item-quantity span {
+            width: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .delete-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: #333;
+            cursor: pointer;
+        }
+
+        .cart-summary {
+            height: auto;
+            overflow: visible;
+            text-align: right;
+            margin-top: auto;
+            padding-right: 10px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .checkout-btn {
+            margin-top: 15px;
+            padding: 12px 20px;
+            background: #228B22;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .checkout-btn:hover {
+            background: #1e7b1e;
+        }
+
+        .cart-items-wrapper {
+            margin-bottom: 20px;
+        }
+
+        .checkout {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .main-container {
+            flex: 1;
+        }
+
+        .cart-badge {
+            position: fixed;
+            top: 38px;
+            right: -5px;
+            background-color: #ff3e3e;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+
+<body class="checkout">
+    
+    <div class="main-container">
+        <!-- Navigation -->
+        <div class="nav-container">
+            <nav class="nav-bar">
+                <div class="logo">
+                    <img src="{% static 'shop/imageSrc/logo.png' %}" alt="Logo" class="logo-image">Coorg Spices Emporium
+                </div>
+                <div class="nav-buttons">
+                    <a href="{% url 'home' %}" class="nav-button">HOME</a>
+                    <a href="{% url 'category_list' %}" class="nav-button">CATEGORY</a>
+                    <a href="#" class="nav-button">CONTACT US</a>
+                    <div class="search-container">
+                        <input type="text" class="search-input" placeholder="Search Spices....">
+                        <button class="search-button">🔍</button>
+                    </div>
+                </div>
+                <button class="cart-button" onclick="location.href='{% url "cart" %}';">
+                    <img src="{% static 'shop/imageSrc/cart.png' %}" alt="Cart" class="cart-icon">
+                {% if cart_item_count > 0 %}
+                <span class="cart-badge">{{ cart_item_count }}</span>
+                {% endif %}
+                </button>
+            </nav>
+        </div>
+
+        <!-- Cart -->
+        <div class="cart-container">
+            <h2 class="cart-title">Your Cart <span>({{ cart_items|length }} items)</span></h2>
+
+            <div class="cart-header">
+                <span class="header-item">Item</span>
+                <span class="header-price">Price</span>
+                <span class="header-qty">Quantity</span>
+                <span class="header-total">Total</span>
+                <span class="header-delete">&nbsp;</span>
+            </div>
+
+            <div class="cart-items-wrapper">
+                {% if cart_items %}
+                {% for item in cart_items %}
+                <div class="cart-item">
+                    <div class="cart-details">
+                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                        <div class="item-text">
+                            <div class="item-name">{{ item.product.name }}</div>
+                            <div class="item-desc">{{ item.variant.weight }}</div>
+                        </div>
+                    </div>
+                    <div class="item-price">₹{{ item.variant.price }}</div>
+                    <div class="item-quantity">
+                        <button onclick="updateQuantity('{{ item.product.slug }}', '{{ item.variant.weight }}', {{ item.quantity|add:"-1" }})">−</button>
+                        <span id="qty-{{ item.product.slug }}-{{ item.variant.weight }}">{{ item.quantity }}</span>
+                        <button onclick="updateQuantity('{{ item.product.slug }}', '{{ item.variant.weight }}', {{ item.quantity|add:"1" }})">+</button>
+                    </div>
+
+
+                    <div class="item-total">₹{{ item.total_price }}</div>
+                    <form method="post" action="{% url 'remove_from_cart' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="product_slug" value="{{ item.product.slug }}">
+                        <input type="hidden" name="variant_weight" value="{{ item.variant.weight }}">
+                        <button class="delete-btn">×</button>
+                    </form>
+                </div>
+                {% endfor %}
+                {% else %}
+                <p style="text-align: center; padding: 20px;">Your cart is empty.</p>
+                {% endif %}
+            </div>
+
+            {% if cart_items %}
+            <!-- Summary + Checkout -->
+            <div class="cart-summary">
+                <h3>Total: <span id="grand-total">₹{{ grand_total }}</span></h3>
+                <button class="checkout-btn" onclick="location.href='{% url "checkout" %}'">Proceed to Checkout</button>
+            </div>
+            {% else %}
+            <div class="cart-summary empty-cart" style="opacity: 0.5;">
+                <h3>Total: <span id="grand-total">₹0</span></h3>
+                <button class="checkout-btn" disabled style="cursor: not-allowed; background-color: #ccc;">Proceed to
+                    Checkout</button>
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2024 Coorg Spices Emporium. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        function updateQuantity(slug, weight, quantity) {
+            if (quantity < 1) return; // prevent zero/negative
+
+            fetch("{% url 'update_cart_quantity' %}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    "X-CSRFToken": "{{ csrf_token }}"
+                },
+                body: new URLSearchParams({
+                    product_slug: slug,
+                    variant_weight: weight,
+                    quantity: quantity
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        location.reload();  // Refresh to reflect changes
+                    } else {
+                        alert("Could not update cart.");
+                    }
+                });
+        }
+    </script>
+
+</body>
+
+</html>

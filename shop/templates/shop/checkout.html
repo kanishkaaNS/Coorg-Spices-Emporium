@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Secure Checkout</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'shop/styles.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Itim&family=Roboto:wght@400;700&display=swap"rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Itim&family=Saira+Stencil+One&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #6B8C66;
+            color: white;
+            background-image: url('{% static 'shop/imageSrc/cart_background.png' %}');
+            background-repeat: no-repeat;
+            background-position: 1080px -250px;
+            background-size: 50% auto;
+        }
+
+        .checkout-title {
+            font-family: 'Itim', sans-serif;
+            text-align: center;
+            font-size: 30px;
+            margin: 20px 0;
+        }
+
+        .container {
+            margin-left: 60px;
+            margin-right: 60px;
+            background-color: #6b8c6600;
+            border-radius: 30px;
+            gap: 10px;
+            display: flex;
+            justify-content: space-between;
+            padding: 40px 80px;
+        }
+
+        .form-section {
+            background-color: #6b8c6600;
+            flex: 1;
+            margin-right: 20px;
+        }
+
+        .form-section h2 {
+            color: #FFF;
+            font-family: Itim;
+            font-size: 24px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+            margin-left: 0px;
+            background-color: transparent;
+        }
+
+        .address-form .row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .address-form .row input,
+        .address-form .row select {
+            width: 49%;
+            padding: 10px;
+            border: 1px solid white;
+            border-radius: 5px;
+            background-color: transparent;
+            color: white;
+        }
+
+        .address-form .row .full {
+            width: 100%;
+        }
+
+        .address-form input::placeholder {
+            color: white;
+            opacity: 0.8;
+        }
+
+        .address-form select {
+            color: white;
+            background-color: transparent;
+        }
+
+        .address-form {
+            border: 1px solid white;
+            padding: 20px;
+            border-radius: 5px;
+            background-color: transparent;
+            margin-top: 10px;
+            ;
+        }
+
+        .address-form input,
+        .address-form select {
+            width: 48%;
+            padding: 10px;
+            margin: 10px 1%;
+            border: 1px solid white;
+            border-radius: 5px;
+            background-color: transparent;
+            color: white;
+            font-size: 14px;
+        }
+
+        .address-form input.full {
+            width: 98%;
+        }
+
+        .address-form input::placeholder {
+            color: white;
+            opacity: 0.8;
+        }
+
+        .address-form select {
+            color: white;
+            background-color: transparent;
+        }
+
+        .address-form label {
+            display: flex;
+            align-items: center;
+            color: white;
+        }
+
+        .save-btn {
+            background-color: #d9d9d9;
+            color: black;
+            padding: 10px 20px;
+            margin: 30px 1%;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-left: 45%;
+            font-size: 20px;
+            font-family: itim, sans-serif;
+        }
+
+
+        .summary-section {
+            min-width: 30%;
+            max-width: 30%;
+        }
+
+        .saved-address {
+            color: rgb(0, 0, 0);
+            padding: 20px 40px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-radius: 15px;
+            border: 1px solid #FFF;
+            background: rgba(125, 161, 119, 0.75);
+        }
+
+        .order-summary {
+            background-color: #7DA177;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+
+        .order-summary div {
+            color: black;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .order-summary .total,
+        .order-summary .order-total {
+            font-weight: bold;
+        }
+
+        .order-summary .free-delivery {
+            color: #2f2f2f;
+            font-size: 15px;
+            margin-bottom: 10px;
+        }
+
+
+        .pay-now {
+            margin-top: 25px;
+            background-color: #3b8df2;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        footer {
+            background-color: #7DA177;
+            padding: 40px 40px;
+            display: flex;
+            /* justify-content: space-between; */
+            flex-wrap: wrap;
+            font-size: 14px;
+            gap: 100px;
+        }
+
+        footer div {
+            margin-bottom: 15px;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: underline;
+            display: block;
+            margin: 4px 0;
+        }
+
+        .spice-strip {
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        .spice-strip img {
+            height: 40px;
+            margin: 0 5px;
+        }
+
+        .checkout-line {
+            border: none;
+            height: 2px;
+            background-color: white;
+            width: 100%;
+            margin: 0px auto 20px auto;
+            border-radius: 5px;
+        }
+
+        /* Optional wrapper class for custom styling */
+        .custom-checkbox {
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+            color: white;
+            gap: 0px;
+        }
+
+        /* Style the checkbox input */
+        .custom-checkbox input[type="checkbox"] {
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid white;
+            border-radius: 4px;
+            background-color: transparent;
+            cursor: pointer;
+            position: relative;
+        }
+
+        /* Checkmark styling */
+        .custom-checkbox input[type="checkbox"]:checked::after {
+            content: "✔";
+            position: absolute;
+            color: white;
+            font-size: 18px;
+            top: -3px;
+            left: 2px;
+        }
+
+        .vertical-divider {
+            width: 3px;
+            opacity: 0.48;
+            background: rgba(255, 255, 255, 0.50);
+            height: auto;
+            margin: 0 20px;
+            border-radius: 2px;
+        }
+
+        .site-footer {
+            background-image: url('{% static 'shop/imageSrc/cart_footer_img.png' %}');
+            background-repeat: no-repeat;
+            background-position: 900px 40px;
+            background-size: 45% auto;
+            padding: 40px 20px;
+            color: white;
+        }
+
+        .contact-box a {
+            display: inline;
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .contact-box span {
+            display: inline-block;
+            margin-bottom: 4px;
+        }
+
+        .saved-address-wrapper {
+            max-height: 350px;
+            overflow-y: auto;
+            padding-right: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* Scrollbar styles */
+        .saved-address-wrapper::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .saved-address-wrapper::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 8px;
+        }
+
+        .saved-address-wrapper::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 8px;
+        }
+
+        .saved-address-wrapper::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        .saved-address {
+            border: 2px solid #ccc;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+
+        .saved-address.selected {
+            border-color: #007bff;
+            /* Blue border when selected */
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: #89a485;
+            padding: 30px;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
+            font-family: 'Saira', sans-serif;
+        }
+
+        .modal-title {
+            color: #184234;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .modal-description {
+            color: #444;
+            font-size: 16px;
+            margin: 10px;
+        }
+
+        .payment-options {
+            margin: 10px 0;
+            text-align: justify;
+            margin-left: 150px;
+        }
+
+        .payment-options {
+            display: block;
+            margin-bottom: 12px;
+            font-size: 16px;
+        }
+
+        .payment-option input {
+            margin-right: 10px;
+        }
+
+        .submit-button {
+            padding: 10px 25px;
+            border: none;
+            background: #184234;
+            color: white;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .cart-badge {
+            position: fixed;
+            top: 38px;
+            right: -5px;
+            background-color: #ff3e3e;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="nav-container">
+        <nav class="nav-bar">
+            <div class="logo">
+                <img src="{% static 'shop/imageSrc/logo.png' %}" alt="Logo" class="logo-image">Coorg Spices Emporium
+            </div>
+            <div class="nav-buttons">
+                <a href="{% url 'home' %}" class="nav-button">HOME</a>
+                <a href="{% url 'category_list' %}" class="nav-button">CATEGORY</a>
+                <a href="#" class="nav-button">CONTACT US</a>
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="Search Spices....">
+                    <button class="search-button">🔍</button>
+                </div>
+            </div>
+            <button class="cart-button" onclick="location.href='{% url "cart" %}';">
+                <img src="{% static 'shop/imageSrc/cart.png' %}" alt="Cart" class="cart-icon">
+                {% if cart_item_count > 0 %}
+                <span class="cart-badge">{{ cart_item_count }}</span>
+                {% endif %}
+            </button>
+        </nav>
+    </div>
+
+    <!-- Popup container -->
+    <div class="popup-container">
+
+        <!-- Popup menu (fixed on left) -->
+        <div class="popup-menu" id="popupMenu">
+            <ul>
+                {% if user.is_authenticated %}
+                <li><a href="{% url 'profile' %}">My Profile</a></li>
+                <li><a href="#">My Orders</a></li>
+                {% endif %}
+
+                <li><a href="#">Featured Products</a></li>
+                <li><a href="#">Recipe Suggestions</a></li>
+                <li><a href="https://www.thespicehouse.com/blogs/news">Blog/Articles</a></li>
+                <li><a href="#">Customer Reviews</a></li>
+
+                {% if user.is_authenticated %}
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+                {% else %}
+                <li><a href="{% url 'login' %}">Login</a></li>
+                <li><a href="{% url 'register' %}">Register</a></li>
+                {% endif %}
+            </ul>
+        </div>
+
+        <!-- Popup trigger button: always visible on screen (left-center) -->
+        <button class="popup-trigger" onclick="togglePopup()">
+            <img src="{% static 'shop/imageSrc/arrow.png' %}" alt="Menu" class="arrow-icon">
+        </button>
+
+    </div>
+
+    <div class="checkout-title">Secure Checkout</div>
+    <hr class="checkout-line">
+
+    <div class="container">
+        <!-- Address Form -->
+        <div class="form-section">
+            <h2>Add New Address</h2>
+            <form method="POST" action="{% url 'add_address_checkout' %}" id="addressForm">
+                {% csrf_token %}
+                <div class="address-form">
+                    <div class="row">
+                        <input type="text" name="flat" placeholder="Flat/Building">
+                        <input type="text" name="landmark" placeholder="Landmark">
+                    </div>
+                    <div class="row">
+                        <input type="text" name="area" class="full" placeholder="Street/Area/Village">
+                    </div>
+                    <div class="row">
+                        <input type="text" name="city" placeholder="City">
+                        <input type="text" name="state" placeholder="State">
+                    </div>
+                    <div class="row">
+                        <input type="text" name="contact" placeholder="Phone">
+                        <input type="text" name="pincode" placeholder="Pin code">
+                    </div>
+                    <label class="custom-checkbox">
+                        <input type="checkbox" name="use_for_order">
+                        Use this address for current order
+                    </label>
+                </div>
+                <button class="save-btn" type="submit">SAVE</button>
+            </form>
+        </div>
+
+
+        <div class="vertical-divider"></div>
+        <!-- Summary -->
+        <div class="summary-section">
+            <div class="saved-address-wrapper">
+                {% for address in addresses %}
+                <div class="saved-address" onclick="selectAddress({{ address.id }})">
+                    <input type="radio" name="selected_address" value="{{ address.id }}" id="address_{{ address.id }}"
+                        style="display:none;" {% if address.is_selected %}checked{% endif %}>
+                    <strong>{{ address.flat }}</strong><br>
+                    {{ address.area }},<br>
+                    {{ address.city }}, {{ address.state }} – {{ address.pincode }}
+                    <br>Landmark - {{address.landmark}}<br>
+                    Contact: {{ address.contact }}
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="order-summary">
+                <div><span>Items:</span> <span>₹{{ subtotal|floatformat:"0" }}</span></div>
+                <div><span>Delivery:</span> <span>₹120</span></div>
+
+                <div class="total"><span><strong>Total:</strong></span> <span><strong>₹{{total|add:120}}</strong></span>
+                </div>
+
+                <div class="free-delivery"><span>FREE Delivery</span> <span>−₹120</span></div>
+
+                <div class="order-total">
+                    <span><strong>Order Total:</strong></span>
+                    <span><strong>₹{{ subtotal|floatformat:"0" }}</strong></span>
+                </div>
+            </div>
+
+            <!-- <button class="pay-now" id="proceed-payment-button">Proceed to Payment</button> -->
+            <button type="button" onclick="proceedToPayment()" class="pay-now">Proceed to Payment</button>
+
+
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="contact-box">
+            <strong>CONTACT US</strong><br>
+            COORG SPICES EMPORIUM LLP<br>
+            F-123, Madikeri<br>
+            Karnataka - 571201<br><br>
+
+            <span>Phone: <a href="tel:+911234567890">+91 1234567890</a></span><br>
+            <span>Email: <a href="mailto:info@coorgspicesemporium.com">info@coorgspicesemporium.com</a></span>
+        </div>
+
+        <div>
+            <strong>INFORMATION</strong><br>
+            <a href="#">Blog</a>
+            <a href="#">Contact Us</a>
+        </div>
+
+        <div>
+            <strong>POLICIES</strong><br>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Return Policy</a>
+            <a href="#">Terms & Conditions</a>
+            <a href="#">My Account</a>
+            <a href="#">Shipping Policy</a>
+        </div>
+
+    </footer>
+
+    <!-- Payment Simulation Modal -->
+<div id="paymentModal" class="modal">
+    <div class="modal-content">
+        <h2 class="modal-title">💳 Simulated Payment Gateway</h2>
+        <p class="modal-description">
+            This is a <strong>demo checkout</strong> to simulate payment outcomes.<br>Choose an option below:
+        </p>
+
+        <div class="payment-options">
+            <label class="payment-option">
+                <input type="radio" name="paymentResult" value="success">
+                ✅ Payment Successful
+            </label>
+            <br><br>
+            <label class="payment-option">
+                <input type="radio" name="paymentResult" value="failed">
+                ❌ Payment Failed
+            </label>
+        </div>
+
+        <button id="submitPayment" class="submit-button">Submit Result</button>
+    </div>
+</div>
+
+<!-- Hidden Form that will be submitted -->
+<form id="paymentForm" method="POST" action="{% url 'order_confirmation' %}" style="display: none;">
+    {% csrf_token %}
+    <input type="hidden" name="payment_status" id="paymentStatus">
+    <input type="hidden" name="address_id" id="addressId">
+</form>
+
+<script>
+    // Popup Menu Logic
+    const popupMenu = document.getElementById("popupMenu");
+    const popupTrigger = document.querySelector(".popup-trigger");
+
+    function togglePopup() {
+        popupMenu.classList.toggle("show");
+
+        if (popupMenu.classList.contains("show")) {
+            popupTrigger.style.opacity = "0";
+            popupTrigger.style.pointerEvents = "none";
+        }
+    }
+
+    document.addEventListener("click", function (event) {
+        if (!popupMenu.contains(event.target) && !popupTrigger.contains(event.target)) {
+            popupMenu.classList.remove("show");
+            popupTrigger.style.opacity = "1";
+            popupTrigger.style.pointerEvents = "auto";
+        }
+    });
+
+    window.addEventListener("scroll", function () {
+        popupMenu.classList.remove("show");
+        popupTrigger.style.opacity = "1";
+        popupTrigger.style.pointerEvents = "auto";
+    });
+
+    // Address Selection
+    function selectAddress(id) {
+        document.querySelectorAll('input[name="selected_address"]').forEach(r => r.checked = false);
+        document.querySelectorAll('.saved-address').forEach(b => b.classList.remove('selected'));
+
+        const selectedRadio = document.getElementById(`address_${id}`);
+        if (selectedRadio) {
+            selectedRadio.checked = true;
+            selectedRadio.closest('.saved-address').classList.add('selected');
+        }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        const modal = document.getElementById("paymentModal");
+        if (modal) modal.style.display = "none";
+
+        // Highlight already-selected address
+        document.querySelectorAll('input[name="selected_address"]').forEach((radio) => {
+            if (radio.checked) {
+                radio.closest('.saved-address').classList.add('selected');
+            }
+        });
+
+        // Optional: close modal if click outside
+        window.addEventListener("click", function (e) {
+            if (e.target === modal) {
+                modal.style.display = "none";
+            }
+        });
+    });
+
+    function proceedToPayment() {
+        const selectedAddress = document.querySelector('input[name="selected_address"]:checked');
+        if (!selectedAddress) {
+            alert("Please select a delivery address before proceeding to payment.");
+            return;
+        }
+
+        const addressId = selectedAddress.value;
+
+        // Validate with server
+        fetch(`/validate-address/${addressId}/`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.exists) {
+                    document.getElementById("paymentModal").style.display = "flex";
+                } else {
+                    alert("The selected address no longer exists. Please refresh and choose a valid one.");
+                    location.reload();
+                }
+            })
+            .catch(err => {
+                alert("An error occurred while verifying the address.");
+                console.error(err);
+            });
+    }
+
+    // Payment simulation handler
+    document.getElementById("submitPayment").addEventListener("click", function () {
+        const selected = document.querySelector('input[name="paymentResult"]:checked');
+        if (!selected) {
+            alert("Please select a payment outcome!");
+            return;
+        }
+
+        // Set payment status
+        document.getElementById("paymentStatus").value = selected.value;
+
+        // Set selected address
+        const chosenAddress = document.querySelector('input[name="selected_address"]:checked');
+        if (!chosenAddress) {
+            alert("Please select a delivery address!");
+            return;
+        }
+        document.getElementById("addressId").value = chosenAddress.value;
+
+        // Submit hidden form
+        document.getElementById("paymentForm").submit();
+    });
+</script>
+
+
+</body>
+
+</html>

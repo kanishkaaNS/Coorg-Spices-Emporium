@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: CoorgSpicesEmporium
+    env: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn coorgspices.wsgi:application"
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: coorgspices.settings
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: SECRET_KEY
+        sync: false
+      - key: DATABASE_URL
+        sync: false

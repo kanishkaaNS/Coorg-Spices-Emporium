@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    {% load image_tags %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coorg Spices</title>
+    <link rel="stylesheet" href="{% static 'shop/styles.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Itim&family=Saira+Stencil+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sansita:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding-top: 60px;
+            font-family: Arial, sans-serif;
+            background-color: #6b8c66;
+            color: black;
+        }
+
+        .price {
+            font-size: 22px;
+            color: #000000;
+            margin-bottom: 10px;
+        }
+
+        .old-price {
+            text-decoration: line-through;
+            color: rgb(87, 20, 20);
+        }
+
+        .product-section {
+            display: flex;
+            max-width: 1600px;
+            margin: auto;
+            margin-top: 30px;
+            transform: scale(0.93);
+        }
+
+        .left-images {
+            flex: 3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-around;
+            min-width: 0;
+        }
+
+        .details {
+            flex: 2;
+            max-width: none;
+        }
+
+        .main-side-wrapper {
+            display: flex;
+            gap: 20px;
+            width: 100%;
+            max-width: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .main-image {
+            width: 500px;
+            height: 580px;
+            border: 3px solid #333;
+            border-radius: 10px;
+            background-color: #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            overflow: hidden;
+        }
+
+        .side-images {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 580px;
+            gap: 20px;
+        }
+
+        .side-images div {
+            width: 275px;
+            height: 275px;
+            border: 3px solid #333333;
+            border-radius: 10px;
+            background-color: #eee;
+            display: flex;
+            align-items: stretch;
+            justify-content: stretch;
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .side-images img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            margin: 0;
+            padding: 0;
+            display: block;
+        }
+
+        .thumbnail-strip {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .thumb-image {
+            width: 70px;
+            height: 70px;
+            border-radius: 5px;
+            border: 2px solid transparent;
+            object-fit: cover;
+            cursor: pointer;
+        }
+
+        .thumb-image.selected {
+            border: 2px solid #000000;
+            border-radius: 5px;
+        }
+
+        /* .arrow-btn {
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+        } */
+
+        .details h1 {
+            font-family: 'Sansita', sans-serif;
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .stars {
+            color: orange;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .price {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .price-new {
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-align: center;
+            display: block;
+            margin: 0 auto 0.5rem auto;
+            /* Center and add space below */
+        }
+
+        .shop-card-price-row {
+            display: flex;
+            justify-content: flex-start;
+            /* Align old price to the left */
+            width: 100%;
+            margin-bottom: 0.5rem;
+        }
+
+        .label {
+            font-size: 18px;
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+
+        .weights button,
+        .quantity button {
+            font-size: 16px;
+            padding: 10px 28px;
+            margin-right: 8px;
+            border: 2px solid transparent;
+            background-color: #b1c977;
+            cursor: pointer;
+            border-radius: 20px;
+            transition: border 0.2s;
+        }
+
+        .weights button.selected {
+            border: 2px solid #000;
+        }
+
+        .quantity {
+            display: flex;
+            align-items: center;
+            gap: 0;
+        }
+
+        .quantity button {
+            width: 40px;
+            height: 40px;
+            font-size: 20px;
+            padding: 0;
+            margin: 0 4px;
+            border: none;
+            background-color: #b1c977;
+            cursor: pointer;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .quantity input {
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            font-size: 18px;
+            border-radius: 50%;
+            border: 2px solid #b1c977;
+            outline: none;
+            margin: 0 4px;
+            background: #fff;
+        }
+
+        .actions {
+            margin: 20px 0;
+        }
+
+        .actions button,
+        .action-btn {
+            font-size: 18px;
+            padding: 10px 0;
+            width: 160px;
+            border: none;
+            border-radius: 5px;
+            margin-right: 10px;
+            cursor: pointer;
+            box-sizing: border-box;
+            text-align: center;
+            background-color: #45663f;
+            color: #fff;
+            transition: background 0.2s;
+        }
+
+        .action-btn:active {
+            background-color: #6a7a66;
+        }
+
+        .action-btn:last-child {
+            margin-right: 0;
+        }
+
+        .buy {
+            background-color: #7DA177;
+            color: white;
+        }
+
+        .cart {
+            background-color: #7DA177;
+            color: white;
+        }
+
+        .description {
+            font-size: 18px;
+            margin-top: 20px;
+        }
+
+        .description h2 {
+            font-family: 'Sansita', sans-serif;
+            margin-bottom: 10px;
+        }
+
+        .icon-box {
+            width: 70%;
+            aspect-ratio: 6 / 1.5;
+            border: 4px solid #333;
+            border-radius: 10px;
+            background-color: #77b3a4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 20px;
+        }
+
+        .icon-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .grind-checkbox {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .grind-checkbox input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+        }
+
+        .grind-checkbox label {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .more-shop-wrapper {
+            position: relative;
+            width: 100vw;
+            left: 50%;
+            right: 50%;
+            margin-left: -50vw;
+            margin-right: -50vw;
+            background-color: #7DA177;
+            margin-top: 3rem;
+        }
+
+        .more-shop-container {
+            max-width: 1470px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            position: relative;
+            transform: scale(0.88);
+        }
+
+        .more-shop-header {
+            font-weight: 700;
+            font-size: 1.8rem;
+            margin-bottom: 1.7rem;
+            color: #37410b;
+            font-family: 'Sansita', sans-serif;
+            text-align: left;
+            user-select: none;
+        }
+
+        .more-shop-grid {
+            display: flex;
+            gap: 1.5rem;
+            padding: 0.5rem 2rem 60px 2rem;
+            /* Add horizontal padding */
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            justify-content: flex-start;
+            scrollbar-width: none;
+            /* Firefox */
+        }
+
+        .more-shop-grid::-webkit-scrollbar {
+            display: none;
+            /* Chrome, Safari, Edge */
+        }
+
+        .more-shop-container {
+            position: relative;
+            overflow: hidden;
+            margin-top: -30px;
+            margin-bottom: -30px;
+        }
+
+        .shop-card {
+            width: 300px;
+            height: 380px;
+            flex-shrink: 0;
+            background-color: #6b8c66;
+            border-radius: 1rem;
+            padding: 1rem;
+            transition: all 0.3s ease;
+            /* Smooth transition for scale, shadow, bg */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .shop-card:hover {
+            background-color: #60985a;
+            /* Slightly lighter green on hover */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            transform: scale(1.03);
+            /* Slight zoom effect */
+        }
+
+        .shop-card-image-container {
+            width: 100%;
+            flex: 1 1 auto;
+            /* Let image container grow to fill space */
+            border-radius: 0.75rem;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #eeeeee00;
+            margin-bottom: 1rem;
+        }
+
+        .shop-card-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            border-radius: 0.75rem;
+        }
+
+        .shop-card-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin: 0 0 0.5rem 0;
+            text-align: center;
+        }
+
+        .more-shop-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            z-index: 10;
+            filter: brightness(0) invert(1);
+            /* Make icon white */
+            background: none;
+            border: none;
+        }
+
+        .left-arrow {
+            left: 20px;
+        }
+
+        .right-arrow {
+            right: 20px;
+        }
+
+        .farm-image-section {
+            width: 100vw;
+            margin-left: -50vw;
+            left: 50%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .farm-image-section img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: auto;
+        }
+
+        .back-button {
+            position: fixed;
+            top: 100px;
+            /* Adjust this */
+            left: 30px;
+            /* Adjust this */
+            z-index: 9999;
+            display: block;
+        }
+
+        .back-button img {
+            width: 40px;
+            /* Adjust size as needed */
+            height: auto;
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0);
+        }
+
+        .back-button img:hover {
+            transform: scale(1.1);
+            cursor: pointer;
+        }
+
+        .old-price {
+            text-decoration: line-through;
+            color: #501616;
+            margin-right: 10px;
+        }
+
+        .cart-badge {
+            position: fixed;
+            top: 38px;
+            right: -5px;
+            background-color: #ff3e3e;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar stays same -->
+    <div class="nav-container">
+        <nav class="nav-bar">
+            <div class="logo">
+                <img src="{% static 'shop/imageSrc/logo.png' %}" alt="Logo" class="logo-image">Coorg Spices Emporium
+            </div>
+            <div class="nav-buttons">
+                <a href="{% url 'home' %}" class="nav-button">HOME</a>
+                <a href="{% url 'category_list' %}" class="nav-button">CATEGORY</a>
+                <a href="#" class="nav-button">CONTACT US</a>
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="Search Spices....">
+                    <button class="search-button">🔍</button>
+                </div>
+            </div>
+            <button class="cart-button" onclick="location.href='{% url "cart" %}';">
+                <img src="{% static 'shop/imageSrc/cart.png' %}" alt="Cart" class="cart-icon">
+                {% if cart_item_count > 0 %}
+                <span class="cart-badge">{{ cart_item_count }}</span>
+                {% endif %}
+            </button>
+        </nav>
+    </div>
+
+    <a href="javascript:history.back()" class="back-button">
+        <img src="{% static 'shop/imageSrc/left-arrow.png' %}" alt="Back">
+    </a>
+
+    <!-- Product Section -->
+    <div class="product-section">
+        <!-- Left Images -->
+        <div class="left-images">
+            <div class="main-side-wrapper">
+                <div class="main-image">
+                    <img id="mainProductImage" src="{{ product.images.all|get_main_image }}" alt="{{ product.name }}"
+                        style="width:100%;height:100%;object-fit:cover;">
+                </div>
+
+                <div class="side-images">
+                    <div>
+                        <img src="{{ product.images.all|get_side_image:'Side_1' }}" alt="Side 1"
+                            style="width:100%;height:100%;object-fit:cover;">
+                    </div>
+                    <div>
+                        <img src="{{ product.images.all|get_side_image:'Side_2' }}" alt="Side 2"
+                            style="width:100%;height:100%;object-fit:cover;">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Thumbnails -->
+            <div class="thumbnail-strip" id="thumbnailContainer">
+                
+                {% for img in product.images.all|dictsort:"alt_text" %}
+                {% if img.alt_text == 'Main_Image' %}
+                <img src="{{ img.image.url }}" class="thumb-image selected"
+                    onclick="changeMainImage(this, '{{ img.image.url }}')" />
+                {% endif %}
+                {% endfor %}
+
+                {% for img in product.images.all %}
+                {% if img.alt_text == 'Side_1' %}
+                <img src="{{ img.image.url }}" class="thumb-image"
+                    onclick="changeMainImage(this, '{{ img.image.url }}')" />
+                {% endif %}
+                {% endfor %}
+
+                {% for img in product.images.all %}
+                {% if img.alt_text == 'Side_2' %}
+                <img src="{{ img.image.url }}" class="thumb-image"
+                    onclick="changeMainImage(this, '{{ img.image.url }}')" />
+                {% endif %}
+                {% endfor %}
+
+                {% for img in product.images.all %}
+                {% if img.alt_text != 'Main_Image' and img.alt_text != 'Side_1' and img.alt_text != 'Side_2' %}
+                <img src="{{ img.image.url }}" class="thumb-image"
+                    onclick="changeMainImage(this, '{{ img.image.url }}')" />
+                {% endif %}
+                {% endfor %}
+
+            </div>
+        </div>
+
+        <!-- Right Side -->
+        <div class="details">
+            <h1>{{ product.name }}</h1>
+            <div class="stars">⭐⭐⭐⭐☆ (69 reviews)</div>
+
+            <div class="price" id="variantPriceSection">
+                {% if default_variant.old_price %}
+                <span class="old-price" id="variantOldPrice">₹{{ default_variant.old_price|floatformat:0 }}</span>
+                {% else %}
+                <span class="old-price" id="variantOldPrice" style="display: none;"></span>
+                {% endif %}
+                <span id="variantNewPrice">₹{{ default_variant.price|floatformat:0 }}</span>
+            </div>
+
+            {% if user.is_authenticated %}
+            <form method="POST" action="{% url 'add_to_cart' %}">
+                {% csrf_token %}
+                <input type="hidden" name="product_slug" value="{{ product.slug }}">
+                <input type="hidden" name="variant_weight" id="variantWeightInput" value="{{ default_variant.weight }}">
+                <input type="hidden" name="quantity" id="formQuantityInput" value="1">
+
+                <div class="label">Weight:</div>
+                <div class="weights">
+                    {% for variant in variants %}
+                    <button type="button" class="{% if variant == default_variant %}selected{% endif %}"
+                        data-weight="{{ variant.weight }}" data-price="{{ variant.price }}"
+                        data-old-price="{{ variant.old_price|default:'' }}" onclick="selectWeight(this)">
+                        {{ variant.weight }}
+                    </button>
+                    {% endfor %}
+                </div>
+
+                <div class="label">Quantity:</div>
+                <div class="quantity">
+                    <button type="button" onclick="adjustQty(-1)">-</button>
+                    <input type="text" id="qtyInput" value="1" readonly>
+                    <button type="button" onclick="adjustQty(1)">+</button>
+                </div>
+
+                <div class="actions">
+                    <button type="submit" class="action-btn cart">Add to Cart</button>
+                    <button type="button" class="action-btn buy">Buy Now</button>
+                </div>
+            </form>
+            {% else %}
+            <!-- Not logged in: show form-like layout with modal trigger -->
+            <div>
+                <input type="hidden" value="{{ default_variant.weight }}" id="variantWeightInput">
+                <input type="hidden" value="1" id="formQuantityInput">
+
+                <div class="label">Weight:</div>
+                <div class="weights">
+                    {% for variant in variants %}
+                    <button type="button" class="{% if variant == default_variant %}selected{% endif %}"
+                        data-weight="{{ variant.weight }}" data-price="{{ variant.price }}"
+                        data-old-price="{{ variant.old_price|default:'' }}" onclick="selectWeight(this)">
+                        {{ variant.weight }}
+                    </button>
+                    {% endfor %}
+                </div>
+
+                <div class="label">Quantity:</div>
+                <div class="quantity">
+                    <button type="button" onclick="adjustQty(-1)">-</button>
+                    <input type="text" id="qtyInput" value="1" readonly>
+                    <button type="button" onclick="adjustQty(1)">+</button>
+                </div>
+
+                <div class="actions">
+                    <button type="button" class="action-btn cart" onclick="openLoginModal()">Add to Cart</button>
+                    <button type="button" class="action-btn buy" onclick="openLoginModal()">Buy Now</button>
+                </div>
+            </div>
+            {% endif %}
+
+
+
+            <div class="description">
+                <h2>Description</h2>
+                <p>{{ product.description }}</p>
+            </div>
+
+            <div class="icon-box">
+                <img src="{% static 'shop/imageSrc/icon_strip.png' %}" alt="Icon Strip">
+            </div>
+        </div>
+    </div>
+
+    <!-- More Products Section -->
+    <div class="more-shop-wrapper">
+        <img src="https://cdn-icons-png.flaticon.com/512/271/271220.png" class="arrow-btn more-shop-arrow left-arrow"
+            onclick="scrollShopGrid(-1)" alt="←" />
+        <section class="more-shop-container" aria-label="More products for shop">
+            <h3 class="more-shop-header" tabindex="0">MORE FOR SHOP</h3>
+            <div class="more-shop-grid" id="shopGrid" aria-live="polite">
+                {% for item in related_products %}
+                <div class="shop-card" role="group" aria-labelledby="more{{ forloop.counter }}Label">
+                    <div class="shop-card-image-container">
+                        <a href="{% url 'product_detail' slug=item.slug %}">
+                            <img src="{{ item.image.url }}" alt="{{ item.name }}" />
+                        </a>
+                    </div>
+                    <div class="shop-card-title" id="more{{ forloop.counter }}Label">{{ item.name }}</div>
+                    <div class="price-new">₹{{ item.lowest_price|floatformat:0 }}</div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+        <img src="https://cdn-icons-png.flaticon.com/512/271/271228.png" class="arrow-btn more-shop-arrow right-arrow"
+            onclick="scrollShopGrid(1)" alt="→" />
+    </div>
+
+    <!-- Farm Image -->
+    <div class="farm-image-section">
+        <img src="{% static 'shop/imageSrc/farm_banner.png' %}" alt="Farm Banner">
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 Coorg Spices Emporium. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Login Required Modal -->
+    <div id="loginModal"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.6); z-index:999;">
+        <div
+            style="background:#96bc90; padding:30px; max-width:400px; margin:10% auto; border-radius:10px; text-align:center;">
+            <h3>Please Login First</h3>
+            <p>You need to log in to add items to your cart or buy!</p>
+            <a href="{% url 'login' %}?next={{ request.path }}"
+                style="display:inline-block; padding:10px 20px; background:#45663f; color:#fff; text-decoration:none; border-radius:6px; margin-top: 20px;">Login</a>
+            <br><br>
+            <button onclick="closeLoginModal()"
+                style="background:transparent; border:none; color:#ffffff; text-decoration:underline;">Close</button>
+        </div>
+    </div>
+
+    <script>
+        function changeMainImage(el, src) {
+            const mainImage = document.getElementById("mainProductImage");
+            mainImage.src = src;
+
+            document.querySelectorAll('.thumb-image').forEach(img => {
+                img.classList.remove('selected');
+            });
+            el.classList.add('selected');
+        }
+
+        function scrollThumbnails(dir) {
+            const container = document.getElementById("thumbnailContainer");
+            if (container) {
+                container.scrollBy({ left: dir * 100, behavior: "smooth" });
+            }
+        }
+
+        function scrollShopGrid(dir) {
+            const grid = document.getElementById("shopGrid");
+            if (grid) {
+                grid.scrollBy({ left: dir * 350, behavior: "smooth" }); // 350px = card width
+            }
+        }
+
+        document.querySelectorAll('.weights button').forEach(btn => {
+            btn.addEventListener('click', function () {
+                document.querySelectorAll('.weights button').forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+            });
+        });
+
+        function scrollShopGrid(dir) {
+            const grid = document.getElementById("shopGrid");
+            if (grid) {
+                const scrollAmount = 315; // 300 card + 15 gap
+                grid.scrollBy({ left: dir * scrollAmount, behavior: "smooth" });
+            }
+        }
+
+        function adjustQty(change) {
+            const qtyInput = document.getElementById("qtyInput");
+            const formInput = document.getElementById("formQuantityInput");
+
+            let currentQty = parseInt(qtyInput.value) || 1; // default to 1 if NaN
+            let newQty = currentQty + change;
+
+            // Clamp to min 1
+            if (newQty < 1) newQty = 1;
+
+            // Directly set both inputs
+            qtyInput.value = newQty.toString();
+            formInput.value = newQty.toString();
+        }
+
+
+        function selectWeight(button) {
+            const weight = button.getAttribute("data-weight");
+            const newPrice = button.getAttribute("data-price");
+            const oldPrice = button.getAttribute("data-old-price");
+
+            // Update hidden input
+            document.getElementById("variantWeightInput").value = weight;
+
+            // Toggle selected class
+            const buttons = document.querySelectorAll(".weights button");
+            buttons.forEach(btn => btn.classList.remove("selected"));
+            button.classList.add("selected");
+
+            // Update price display
+            const newPriceSpan = document.getElementById("variantNewPrice");
+            const oldPriceSpan = document.getElementById("variantOldPrice");
+
+            newPriceSpan.textContent = `₹${parseFloat(newPrice).toFixed(0)}`;
+
+            if (oldPrice && oldPrice !== 'None') {
+                oldPriceSpan.style.display = 'inline';
+                oldPriceSpan.textContent = `₹${parseFloat(oldPrice).toFixed(0)}`;
+            } else {
+                oldPriceSpan.style.display = 'none';
+            }
+        }
+
+
+        function openLoginModal() {
+            document.getElementById("loginModal").style.display = "block";
+        }
+
+        function closeLoginModal() {
+            document.getElementById("loginModal").style.display = "none";
+        }
+
+        function adjustQty(val) {
+            const qtyInput = document.getElementById("qtyInput");
+            let qty = parseInt(qtyInput.value);
+            qty += val;
+            if (qty < 1) qty = 1;
+            qtyInput.value = qty;
+            document.getElementById("formQuantityInput").value = qty;
+        }
+
+    </script>
+
+</body>
+
+</html>

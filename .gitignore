@@ -1,0 +1,32 @@
+# Django stuff
+*.log
+*.pot
+*.pyc
+__pycache__/
+db.sqlite3
+media/
+
+# Environment variables
+.env
+.env.*
+
+# Virtual environment
+env/
+venv/
+ENV/
+.venv/
+
+# IDE & editor settings
+.vscode/
+.idea/
+*.swp
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Python packaging
+*.egg-info/
+*.egg
+dist/
+build/

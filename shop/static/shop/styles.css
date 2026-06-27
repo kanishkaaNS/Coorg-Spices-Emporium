@@ -1,0 +1,333 @@
+/* ===================== Reset & Basics ===================== */
+body,
+h1,
+p,
+button {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding-top: 80px;
+    background-color: #6b8c66;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+
+/* ===================== Navbar ===================== */
+.nav-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #96bc90;
+    padding: 5px 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.nav-bar {
+    display: flex;
+    align-items: center;
+    transform: scale(0.9);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    color: #2C4D54;
+    font-size: 20px;
+    font-family: "Itim", serif;
+    font-weight: 450;
+    margin-left: -50px;
+    margin-right: 30px;
+    width: max-content;
+}
+
+.logo-image {
+    width: 70px;
+    height: 60px;
+    margin-right: 10px;
+}
+
+.nav-button {
+    background-color: #F6F6F6;
+    font-size: 16px;
+    color: #949494;
+    border: none;
+    padding: 10px 1em;
+    cursor: pointer;
+    border-radius: 555px;
+    min-width: 130px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.nav-button:hover {
+    background-color: #56CB60;
+}
+
+.nav-buttons {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.cart-button {
+    background: #FFFFFF;
+    border: none;
+    cursor: pointer;
+    padding: 7px 10px;
+    border-radius: 400px;
+    margin-left: 330px;
+}
+
+.cart-button:hover {
+    background-color: #56CB60;
+}
+
+.cart-icon {
+    width: 24px;
+    height: 24px;
+}
+
+/* ===================== Search ===================== */
+.search-container {
+    display: flex;
+    align-items: center;
+    background-color: #F6F6F6;
+    border-radius: 555px;
+    padding: 7.2px 15px;
+    height: 24px;
+    width: 360px;
+}
+
+.search-input {
+    border: none;
+    background: none;
+    outline: none;
+    font-size: 17px;
+    width: 100%;
+    color: #2C4D54;
+}
+
+.search-input::placeholder {
+    color: #949494;
+}
+
+.search-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+/* ===================== Banner ===================== */
+.image-container {
+    width: 100%;
+    height: 220px;
+    overflow: hidden;
+    position: relative;
+    top: -11px;
+}
+
+.responsive-image {
+    position: absolute;
+    top: -20px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* ===================== Main Content ===================== */
+.main-container {
+    text-align: center;
+    padding: 10px;
+    position: relative;
+}
+
+.main-heading {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    color: #ffffff;
+}
+
+.main-text {
+    font-size: 1.2em;
+    color: #ffffff;
+}
+
+/* ===================== Popup ===================== */
+
+.popup-container {
+    position: fixed; /* Fix position relative to the viewport */
+    top: 0;
+    left: 0;
+    height: 100%;
+    z-index: 900; /* Ensure it appears above other content */
+}
+
+/* Popup menu styles */
+.popup-menu {
+    position: absolute; /* Absolute positioning for the popup */
+    font-size: 20px;
+    font-family: 'Saira Stencil One', sans-serif;
+    top: 0;
+    left: -250px; /* Start off-screen */
+    width: 250px; /* Width of the popup */
+    height: 100%; /* Full height of the screen */
+    background-color: #B6D9B0; /* Background color */
+    box-shadow: 2px 0 5px rgba(0,0,0,0.5); /* Shadow for depth */
+    transition: left 0.3s ease; /* Smooth slide-in transition */
+    padding-top: 20px; /* Padding for top content */
+}
+
+/* Popup trigger button styles */
+.popup-trigger {
+    position: absolute; /* Absolute position relative to popup menu */
+    top: 50%; /* Center vertically within the popup menu */
+    left: 100%; /* Positioned at the edge of the popup menu */
+    transform: translate(-10%, -50%); /* Center button on left edge */
+    background-color: transparent; /* Transparent background */
+    border: none; /* No border */
+    cursor: pointer; /* Pointer cursor */
+    z-index: 1001; /* Above the popup menu */
+    transition: left 0.3s ease; /* Same transition as the popup menu */
+}
+
+/* When the popup is shown */
+.popup-menu.show {
+    left: 0; /* Move into view */
+}
+
+/* Adjust button position when popup is shown */
+.popup-menu.show + .popup-trigger {
+    left: 260px; /* Adjust this value for spacing between button and menu */
+}
+
+/* Popup menu list styles */
+.popup-menu ul {
+    list-style-type: none; /* Remove default list styling */
+    padding: 0;
+    margin-top: 85px;
+    margin-left: 10px;
+}
+
+.popup-menu li {
+    padding: 15px; /* Padding for each item */
+}
+
+.popup-menu li a {
+    text-decoration: none; /* Remove underline */
+    color: #333; /* Text color */
+    display: block; /* Make entire area clickable */
+    transition: background-color 0.3s; /* Smooth hover effect */
+}
+
+.popup-menu li a:hover {
+    background-color: #f0f0f0; /* Hover background color */
+}
+
+.arrow-icon {
+    width: 35px; /* Set the width of the image */
+    height: 35px; /* Set the height of the image */
+}
+
+/* ===================== Product Grid ===================== */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 60px;
+    row-gap: 40px;
+    margin: 60px;
+}
+
+.product-item-link {
+    text-decoration: none;
+}
+
+.product-item {
+    background-color: #96bc9050;
+    border-radius: 20px;
+    text-align: center;
+    position: relative;
+    width: 100%;
+    height: 300px;
+    padding: 20px 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s ease;
+}
+
+.product-item:hover {
+    background-color: #96bc90;
+}
+
+.product-item img {
+    width: 70%;
+    height: auto;
+    margin-bottom: 5px;
+    transition: width 0.3s ease;
+}
+
+.product-item:hover img {
+    width: 80%;
+}
+
+.product-info {
+    text-align: center;
+}
+
+.product-title {
+    margin: 10px 0;
+    color: #FFF;
+    font-size: 35px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+/* ===================== Footer ===================== */
+.footer {
+    background-color: #55824f;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    font-size: 16px;
+    width: 100%;
+    margin-top: auto;
+}
+
+/* .footer {
+    position: relative;
+    height: 100px;
+    margin-top: -100px;
+    clear: both;
+} */
+
+.footer p {
+    margin: 0;
+}
+
+/* ===================== Misc ===================== */
+.site-container {
+    width: 90vw;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+.content-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}

@@ -1,0 +1,264 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Register</title>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Source Sans Pro', sans-serif;
+        }
+
+        html,
+        body {
+            height: 100%;
+            background: radial-gradient(circle, rgb(179, 198, 155) 0%, rgb(38, 74, 11) 100%);
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .container {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 25px 50px -12px rgba(44, 77, 84, 0.5);
+            width: 340px;
+            padding: 40px 48px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 2;
+        }
+
+        .container h1 {
+            font-weight: 700;
+            font-size: 1.6rem;
+            color: #2C4D54;
+            margin-bottom: 40px;
+        }
+
+        form {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        input {
+            background: #fff;
+            border-radius: 16px;
+            border: none;
+            box-shadow:
+                0 12px 20px rgba(44, 77, 84, 0.06),
+                0 8px 12px rgba(44, 77, 84, 0.08),
+                inset 0 8px 12px rgba(255, 255, 255, 1);
+            padding: 16px 20px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #2C4D54;
+            outline-offset: 3px;
+            outline-color: transparent;
+            transition: outline-color 0.3s ease;
+            caret-color: #2C4D54;
+        }
+
+        input:focus {
+            outline-color: #6b8c66;
+        }
+
+        button[type="submit"] {
+            margin-top: 10px;
+            background: #6b8c66;
+            color: white;
+            padding: 14px 0;
+            font-weight: 600;
+            font-size: 0.85rem;
+            border-radius: 30px;
+            border: none;
+            box-shadow: 0 18px 22px -12px rgba(44, 77, 84, 0.65);
+            transition: background-color 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+            background: #2C4D54;
+            cursor: pointer;
+        }
+
+        .login-alt-text {
+            margin: 35px 0 16px;
+            color: #6b8c66;
+            font-weight: 400;
+            font-size: 0.9rem;
+        }
+
+        .social-login {
+            display: flex;
+            justify-content: center;
+        }
+
+        .social-btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgb(175, 194, 183);
+            box-shadow:
+                0 15px 20px -12px rgba(44, 77, 84, 0.05),
+                0 8px 12px -8px rgba(44, 77, 84, 0.10);
+            cursor: pointer;
+            border: none;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .social-btn:hover {
+            box-shadow:
+                0 0 15px rgba(44, 77, 84, 0.35),
+                0 0 25px rgba(44, 77, 84, 0.2);
+            transform: scale(1.05);
+        }
+
+        .social-btn img {
+            width: 80%;
+            height: 80%;
+            object-fit: cover;
+        }
+
+        .bottom-signup {
+            margin-top: 30px;
+            color: #2C4D54;
+            font-weight: 400;
+            font-size: 0.9rem;
+        }
+
+        .bottom-signup a {
+            text-decoration: none;
+            color: #2C4D54;
+        }
+
+        .bottom-signup a:hover {
+            text-decoration: underline;
+        }
+
+        .brand-header {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            display: flex;
+            align-items: center;
+        }
+
+        .brand-logo {
+            height: 80px;
+            margin-right: 5px;
+        }
+
+        .brand-text {
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: white;
+            font-family: 'Saira Stencil One', cursive;
+        }
+
+        .rules-box {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #2C4D54;
+            padding: 20px;
+            border-radius: 10px;
+            width: 280px;
+            font-size: 0.9rem;
+            box-shadow: 0 15px 25px -12px rgba(44, 77, 84, 0.5);
+        }
+
+        .rules-box h3 {
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .rules-box ul {
+            padding-left: 18px;
+        }
+
+        .rules-box li {
+            margin-bottom: 8px;
+        }
+
+        .message-box {
+            width: 100%;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .error-msg {
+            color: red;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="brand-header">
+        <img src="{% static 'shop/imageSrc/logo.png' %}" alt="Logo" class="brand-logo">
+        <span class="brand-text">Coorg Spices Emporium</span>
+    </div>
+
+    <div class="container">
+        <h1>Create Account</h1>
+        {% if messages %}
+        <div class="message-box">
+            {% for message in messages %}
+            <p class="error-msg">{{ message }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <form method="post" action="{% url 'register' %}">
+            {% csrf_token %}
+            <input type="text" name="name" placeholder="Full Name" required />
+            <input type="email" name="email" placeholder="Email Address" required />
+            <input type="password" name="password" placeholder="Password" required />
+            <input type="password" name="password_confirmation" placeholder="Password Confirmation" required />
+            <button type="submit">Register</button>
+        </form>
+
+        <p class="login-alt-text">Or sign up with</p>
+
+        <div class="social-login">
+            <button class="social-btn" aria-label="Google">
+                <img src="{% static 'shop/imageSrc/google-icon.png' %}" alt="Google" />
+            </button>
+        </div>
+
+        <p class="bottom-signup">
+            Already have an account? <a href="{% url 'login' %}">Sign In</a>
+        </p>
+    </div>
+
+    <div class="rules-box">
+        <h3>Account Rules</h3>
+        <ul>
+            <li>Username must be unique</li>
+            <li>Password must be at least 8 characters</li>
+            <li>Use a mix of letters and numbers</li>
+            <li>No special characters in username</li>
+            <li>Password & confirm password must match</li>
+        </ul>
+    </div>
+</body>
+
+</html>

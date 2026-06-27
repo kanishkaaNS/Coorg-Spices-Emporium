@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>My Orders</title>
+    <link rel="stylesheet" href="{% static 'shop/styles.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Itim&family=Saira+Stencil+One&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Itim', cursive;
+            background: #b4d7a6;
+            color: #2f2f2f;
+            margin: 0;
+            padding: 0;
+        }
+
+        .orders-container {
+            min-width: 1000px;
+            margin: 100px auto;
+            background: #c2dfb3;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .orders-title {
+            font-family: 'Saira Stencil One', cursive;
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 25px;
+            color: #2d572c;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th,
+        td {
+            text-align: center;
+            padding: 14px 12px;
+            font-size: 15px;
+        }
+
+        th {
+            background: #5a7d4d;
+            color: #fff;
+            font-weight: normal;
+        }
+
+        tr:nth-child(even) {
+            background: #ecffdf;
+        }
+
+        .btn-view {
+            background: #2d572c;
+            color: #fff;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: 'Itim', cursive;
+        }
+
+        .btn-view:hover {
+            background: #224021;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 999;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: #fff;
+            padding: 25px;
+            border-radius: 16px;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #e4e4e4;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2d572c;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #444;
+        }
+
+        .modal-body h6 {
+            margin: 6px 0;
+            font-weight: normal;
+            color: #333;
+        }
+
+        .items-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .items-list li {
+            padding: 10px;
+            margin-bottom: 8px;
+            border-radius: 10px;
+            background: #f4f8f1;
+            box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .back-button {
+            position: absolute;
+            top: 100px;
+            left: 200px;
+            z-index: 0;
+            text-decoration: none;
+        }
+        
+        .back-button img {
+            position: absolute;
+            left: -25px;
+            width: 40px;
+            height: 40px;
+            transition: opacity 0.3s ease, transform 0.2s ease;
+        }
+
+        .back-button img:hover {
+            opacity: 0.7;
+            transform: scale(1.1);
+        }
+
+        .cart-badge {
+            position: fixed;
+            top: 38px;
+            right: -5px;
+            background-color: #ff3e3e;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="nav-container">
+        <nav class="nav-bar">
+            <div class="logo">
+                <img src="{% static 'shop/imageSrc/logo.png' %}" alt="Logo" class="logo-image">Coorg Spices Emporium
+            </div>
+            <div class="nav-buttons">
+                <a href="{% url 'home' %}" class="nav-button">HOME</a>
+                <a href="{% url 'category_list' %}" class="nav-button">CATEGORY</a>
+                <a href="#" class="nav-button">CONTACT US</a>
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="Search Spices....">
+                    <button class="search-button">🔍</button>
+                </div>
+            </div>
+            <button class="cart-button" onclick="location.href='{% url "cart" %}';">
+                <img src="{% static 'shop/imageSrc/cart.png' %}" alt="Cart" class="cart-icon">
+                {% if cart_item_count > 0 %}
+                <span class="cart-badge">{{ cart_item_count }}</span>
+                {% endif %}
+            </button>
+        </nav>
+    </div>
+
+    <!-- Popup container -->
+    <div class="popup-container">
+
+        <!-- Popup menu (fixed on left) -->
+        <div class="popup-menu" id="popupMenu">
+            <ul>
+                {% if user.is_authenticated %}
+                <li><a href="{% url 'profile' %}">My Profile</a></li>
+                <li><a href="{% url 'my_orders' %}">My Orders</a></li>
+                {% endif %}
+
+                <li><a href="#">Featured Products</a></li>
+                <li><a href="#">Recipe Suggestions</a></li>
+                <li><a href="https://www.thespicehouse.com/blogs/news">Blog/Articles</a></li>
+                <li><a href="#">Customer Reviews</a></li>
+
+                {% if user.is_authenticated %}
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+                {% else %}
+                <li><a href="{% url 'login' %}">Login</a></li>
+                <li><a href="{% url 'register' %}">Register</a></li>
+                {% endif %}
+            </ul>
+        </div>
+
+        <!-- Popup trigger button: always visible on screen (left-center) -->
+        <button class="popup-trigger" onclick="togglePopup()">
+            <img src="{% static 'shop/imageSrc/arrow.png' %}" alt="Menu" class="arrow-icon">
+        </button>
+
+    </div>
+
+    <a href="javascript:history.back()" class="back-button">
+        <img src="{% static 'shop/imageSrc/left-arrow.png' %}" alt="Back" />
+    </a>
+
+    <div class="orders-container">
+        <h2 class="orders-title">My Orders</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Order Number</th>
+                    <th>Status</th>
+                    <th>Payment</th>
+                    <th>Total</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td>#{{ order.order_number }}</td>
+                    <td>{{ order.status }}</td>
+                    <td>{{ order.payment_status }}</td>
+                    <td>₹{{ order.total_price }}</td>
+                    <td>{{ order.created_at|date:"d M Y, H:i" }}</td>
+                    <td>
+                        <button class="btn-view" onclick="openModal('modal{{ order.id }}')">View</button>
+                    </td>
+                </tr>
+
+                <!-- Modal -->
+                <div id="modal{{ order.id }}" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span class="modal-title">Order #{{ order.order_number }}</span>
+                            <button class="close-btn" onclick="closeModal('modal{{ order.id }}')">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <h6>Status: {{ order.status }}</h6>
+                            <h6>Payment: {{ order.payment_status }}</h6>
+                            <h6>Total: ₹{{ order.total_price }}</h6>
+                            <hr>
+                            <h5>Shipping Address</h5>
+                            {% if order.address %}
+                            <h4>
+                                {{ order.address.flat }} <br>
+                                {{ order.address.area }}, {{ order.address.landmark }} <br>
+                                {{ order.address.state }} - {{ order.address.pincode }} <br>
+                                Phone: {{ order.address.contact }}
+                            </h4>
+                            {% else %}
+                            <p><i>No address found for this order.</i></p>
+                            {% endif %}
+                            <hr>
+                            <h5>Items</h5>
+                            <ul class="items-list">
+                                {% for item in order.items.all %}
+                                <li>
+                                    {{ item.variant.product.name }} ({{ item.variant.weight }}) × {{ item.quantity }}
+                                    = ₹{{ item.price|floatformat:2 }}
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+                {% endfor %}
+            </tbody>
+        </table>
+        <br>
+        <caption>Note - Orders shall be deleted automatically after 3 months.</caption>
+    </div>
+
+
+    <script>
+        function openModal(id) {
+            document.getElementById(id).style.display = "flex";
+        }
+        function closeModal(id) {
+            document.getElementById(id).style.display = "none";
+        }
+        window.onclick = function (e) {
+            document.querySelectorAll('.modal').forEach(modal => {
+                if (e.target === modal) {
+                    modal.style.display = "none";
+                }
+            });
+        }
+
+        const popupMenu = document.getElementById("popupMenu");
+        const popupTrigger = document.querySelector(".popup-trigger");
+
+        function togglePopup() {
+            popupMenu.classList.toggle("show");
+
+            // Hide trigger when menu is open
+            if (popupMenu.classList.contains("show")) {
+                popupTrigger.style.opacity = "0";
+                popupTrigger.style.pointerEvents = "none";
+            }
+        }
+
+        // Close menu on outside click
+        document.addEventListener("click", function (event) {
+            if (!popupMenu.contains(event.target) && !popupTrigger.contains(event.target)) {
+                popupMenu.classList.remove("show");
+                popupTrigger.style.opacity = "1";
+                popupTrigger.style.pointerEvents = "auto";
+            }
+        });
+
+        // Close menu on scroll
+        window.addEventListener("scroll", function () {
+            if (popupMenu.classList.contains("show")) {
+                popupMenu.classList.remove("show");
+                popupTrigger.style.opacity = "1";
+                popupTrigger.style.pointerEvents = "auto";
+            }
+        });
+    </script>
+</body>
+
+</html>

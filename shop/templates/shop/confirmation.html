@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Itim&family=Saira+Stencil+One&display=swap" rel="stylesheet">
+    <title>
+        {% if request.GET.status == 'success' %}Order Successful - Coorg Spices
+        {% elif request.GET.status == 'failed' %}Payment Failed - Coorg Spices
+        {% else %}Order Confirmation - Coorg Spices
+        {% endif %}
+    </title>
+
+    <link rel="stylesheet" href="{% static 'shop/styles.css' %}">
+    <style>
+        .confirmation-container {
+            margin: 150px auto auto;
+            padding: 40px;
+            background: #f0f9eb;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .confirmation-container h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: #2e7d32;
+        }
+
+        .confirmation-container p {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        .confirmation-note {
+            font-size: 15px;
+            margin-top: 20px;
+            color: #999;
+            font-style: italic;
+        }
+
+        .back-home {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 10px 20px;
+            background: #4caf50;
+            color: white;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .back-home:hover {
+            background: #388e3c;
+        }
+
+        .confirmation-container strong {
+            font-weight: 600;
+            color: #000;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="nav-container">
+        <nav class="nav-bar">
+            <div class="logo">
+                <img src="{% static 'shop/imageSrc/logo.png' %}" alt="Logo" class="logo-image">Coorg Spices Emporium
+            </div>
+            <div class="nav-buttons">
+                <a href="{% url 'home' %}" class="nav-button">HOME</a>
+                <a href="{% url 'category_list' %}" class="nav-button">CATEGORY</a>
+                <a href="#" class="nav-button">CONTACT US</a>
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="Search Spices....">
+                    <button class="search-button">🔍</button>
+                </div>
+            </div>
+            <button class="cart-button" onclick="location.href='{% url "cart" %}';">
+                <img src="{% static 'shop/imageSrc/cart.png' %}" alt="Cart" class="cart-icon">
+                {% if cart_item_count > 0 %}
+                <span class="cart-badge">{{ cart_item_count }}</span>
+                {% endif %}
+            </button>
+        </nav>
+    </div>
+
+    <!-- Popup container -->
+    <div class="popup-container">
+
+        <!-- Popup menu (fixed on left) -->
+        <div class="popup-menu" id="popupMenu">
+            <ul>
+                {% if user.is_authenticated %}
+                <li><a href="{% url 'profile' %}">My Profile</a></li>
+                <li><a href="#">My Orders</a></li>
+                {% endif %}
+
+                <li><a href="#">Featured Products</a></li>
+                <li><a href="#">Recipe Suggestions</a></li>
+                <li><a href="https://www.thespicehouse.com/blogs/news">Blog/Articles</a></li>
+                <li><a href="#">Customer Reviews</a></li>
+
+                {% if user.is_authenticated %}
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+                {% else %}
+                <li><a href="{% url 'login' %}">Login</a></li>
+                <li><a href="{% url 'register' %}">Register</a></li>
+                {% endif %}
+            </ul>
+        </div>
+
+        <!-- Popup trigger button: always visible on screen (left-center) -->
+        <button class="popup-trigger" onclick="togglePopup()">
+            <img src="{% static 'shop/imageSrc/arrow.png' %}" alt="Menu" class="arrow-icon">
+        </button>
+
+    </div>
+
+    <div class="confirmation-container">
+        {% if payment_status == 'success' %}
+        <h1 style="color: #2e7d32;">✅ Payment Successful!</h1>
+        <p>Thank you for your order. <br>We truly appreciate your interest in Coorg Spices.</p>
+
+        {% elif payment_status == 'failed' %}
+        <h1 style="color: #c62828;">❌ Payment Failed</h1>
+        <p>Unfortunately, your payment was not successful. <br>Please try again from my orders in your profile section.</p>
+
+        {% else %}
+        <h1>⚠️ Unknown Payment Status</h1>
+        <p>We could not determine your payment result. <br>Please contact support or try again.</p>
+        {% endif %}
+
+        {% if order %}
+        <h2>Your Order Number:
+            <span style="color:#4CAF50;">#{{ order.order_number }}</span>
+        </h2>
+        {% endif %}
+
+        <div class="confirmation-note">
+            This is a demo project website. Your order will <strong>not</strong> be delivered.<br>
+            Thanks for checking out our portfolio project!
+        </div>
+        <a href="{% url 'home' %}" class="back-home">Back to Home</a>
+    </div>
+
+    <script>
+        const popupMenu = document.getElementById("popupMenu");
+        const popupTrigger = document.querySelector(".popup-trigger");
+
+        function togglePopup() {
+            popupMenu.classList.toggle("show");
+
+            // Hide trigger when menu is open
+            if (popupMenu.classList.contains("show")) {
+                popupTrigger.style.opacity = "0";
+                popupTrigger.style.pointerEvents = "none";
+            }
+        }
+
+        // Close menu on outside click
+        document.addEventListener("click", function (event) {
+            if (!popupMenu.contains(event.target) && !popupTrigger.contains(event.target)) {
+                popupMenu.classList.remove("show");
+                popupTrigger.style.opacity = "1";
+                popupTrigger.style.pointerEvents = "auto";
+            }
+        });
+
+        // Close menu on scroll
+        window.addEventListener("scroll", function () {
+            if (popupMenu.classList.contains("show")) {
+                popupMenu.classList.remove("show");
+                popupTrigger.style.opacity = "1";
+                popupTrigger.style.pointerEvents = "auto";
+            }
+        });
+    </script>
+
+</body>
+
+</html>
