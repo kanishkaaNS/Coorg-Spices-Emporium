@@ -1,59 +1,104 @@
-# Coorg Spices Emporium 🌿
+# 🌿 Coorg Spices Emporium
 
-A milestone in my journey as a developer — **my first full-stack website built entirely from scratch**.  
-In just **30 days**, from designing, development, and deploying this e-commerce platform end-to-end, learning every layer of web development along the way.  
+A collaborative full-stack e-commerce web application built for a local spices business. This project was developed as part of a team, where I primarily contributed to the **frontend development**, focusing on creating an intuitive, responsive, and visually appealing shopping experience.
 
-Built with dedication and curiosity, this project reflects my commitment to mastering fundamentals by creating real, working software. Currently optimized for a 15.6-inch screen (not yet responsive); I plan to enhance it with responsiveness and new features in future.
-
----
-
-## 🔗 Live Demo
-
-💡 **Take a look at the live site to see this project in action — I invite you to explore and experience it firsthand!**
-
-[![Live Demo](https://img.shields.io/badge/LIVE%20DEMO-Coorg%20Spices%20Emporium-brightgreen?style=for-the-badge)](https://coorgspicesemporium.onrender.com)
+This project helped me strengthen my understanding of frontend development by working on a real-world application involving dynamic product pages, shopping cart functionality, user authentication flows, and backend integration.
 
 ---
 
-## 🚀 Features
+## 🚀 Live Demo
 
-**Admin Side:**  
-- Manage products, categories, and product images.  
-- Create and manage product variants (e.g., weight categories).  
-- Customize featured products on the homepage.  
-
-**Customer Side:**  
-- Side navigation bar for easy access to sections.  
-- User management: login, logout, register, password reset, and profile page.  
-- Profile page displays account details, contact info, addresses, and other settings.  
-- Orders page to view all placed orders with unique order IDs.  
-- Dynamic Product Detail Page (PDP) with “More for Shop” section for product suggestions.  
-- Cart functionality with options to increase/decrease quantity or remove items.  
-- Checkout page with address management: add new addresses via form or select existing ones.  
-- Payment simulation popup to emulate success/failure transactions.  
-- Category pages displaying all categories; click a category to view products within it.  
+🔗 https://coorgspicesemporium.onrender.com
 
 ---
 
-## 🛠️ Tech Stack
+## 💻 My Contributions
 
-- **Frontend:** HTML5, CSS3, JavaScript  
-- **Backend:** Django (Python)  
-- **Database:** PostgreSQL (Neon)  
-- **Hosting:** Render  
-- **Image Storage:** AWS  
-- **Email Service:** Gmail SMTP (password reset)
+As the **Frontend Developer**, I worked on various customer-facing pages and UI components, including:
+
+* Designing and implementing responsive user interfaces.
+* Building product listing and product detail page layouts.
+* Developing shopping cart and checkout interfaces.
+* Creating reusable UI components using HTML, CSS, and JavaScript.
+* Integrating frontend pages with backend APIs provided by the Django application.
+* Improving user experience through clean layouts, navigation, and interactive elements.
+* Collaborating with the backend developer to ensure smooth frontend-backend integration.
+
+---
+
+## ✨ Features
+
+### Customer Features
+
+* Product browsing by category
+* Dynamic Product Detail Pages
+* Shopping cart
+* Checkout flow
+* User authentication
+* User profile management
+* Address management
+* Order history
+* Payment simulation
+* Category navigation
+
+### Admin Features
+
+* Product management
+* Category management
+* Product image management
+* Featured product management
+* Product variant management
 
 ---
 
-## 🙏 Special Thanks
+## 🛠 Tech Stack
 
-I am extremely grateful to my friends who helped me along the way:  
+### Frontend
 
-- **Jai Charan M** - Provided the initial static designs for the homepage, product detail page, cart page, and checkout page. His designs were a great starting point and inspiration for the final implementation.
-    
-- **Kanishkaa NS** - Assisted with the frontend for a few pages, providing ideas and early layouts that I later refined and integrated dynamically.  
+* HTML5
+* CSS3
+* JavaScript
 
-> Your support and contributions made this project smoother and more enjoyable to build. Thank you!  
+### Backend
+
+* Django (Python)
+
+### Database
+
+* PostgreSQL
+
+### Cloud & Deployment
+
+* Render
+* AWS S3 (Image Storage)
 
 ---
+
+## 📚 What I Learned
+
+Working on this project helped me gain practical experience with:
+
+* Building responsive multi-page web interfaces
+* DOM manipulation with JavaScript
+* Frontend and backend integration
+* Working with Django templates
+* Team collaboration using Git and GitHub
+* Real-world software development workflows
+* Debugging and maintaining an existing codebase
+
+---
+
+## 🔮 Future Improvements
+
+Some enhancements I plan to make include:
+
+* Improve mobile responsiveness across all pages
+* Enhance search functionality
+* Improve accessibility (WCAG)
+* Refine UI/UX interactions and animations
+* Optimize frontend performance
+* Improve overall code organization and maintainability
+
+---
+
+
