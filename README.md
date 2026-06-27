@@ -101,4 +101,37 @@ Some enhancements I plan to make include:
 
 ---
 
+## 📸 Application Preview
 
+<table>
+<tr>
+<td align="center"><strong>🏠 Home Page</strong></td>
+<td align="center"><strong>🛍️ Category Page</strong></td>
+</tr>
+
+<tr>
+<td>
+<img src="https://github.com/user-attachments/assets/bc1c8469-f674-43af-bee9-2b7e86e4586a" width="100%">
+</td>
+
+<td>
+<img src="https://github.com/user-attachments/assets/5ace20c8-c63a-4eb2-bafc-bf56255b7d25" width="100%">
+</td>
+</tr>
+
+<tr>
+<td align="center"><strong>📦 Product Detail Page</strong></td>
+<td align="center"><strong>💳 Payment Success</strong></td>
+</tr>
+
+<tr>
+<td>
+<img src="https://github.com/user-attachments/assets/5e98724e-bdf8-4556-ad8f-3e3abdba32a8" width="100%">
+</td>
+
+<td>
+<img src="https://github.com/user-attachments/assets/74bb02ff-1f0f-46c9-b792-51b032453fd5" width="100%">
+</td>
+</tr>
+
+</table>
